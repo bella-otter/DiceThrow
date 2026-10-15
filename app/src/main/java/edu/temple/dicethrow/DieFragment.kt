@@ -13,9 +13,8 @@ const val DIESIDE = "sidenumber"
 class DieFragment : Fragment() {
 
     val dieViewModel : DieViewModel by lazy {
-        ViewModelProvider(requireActivity())[DieViewModel::class.java]
+        ViewModelProvider(this)[DieViewModel::class.java]
     }
-    val CURRENT_ROLL = "current_roll"
     lateinit var dieTextView: TextView
 
     var dieSides: Int = 6
@@ -48,7 +47,8 @@ class DieFragment : Fragment() {
         }
 
         view.setOnClickListener{
-            throwDie()
+            if (requireActivity() is DieRollInterface)
+                (requireActivity() as DieRollInterface).rollDice()
         }
     }
 
@@ -63,4 +63,8 @@ class DieFragment : Fragment() {
             }
         }
     }
+    interface DieRollInterface {
+        fun rollDice()
+    }
+
 }
